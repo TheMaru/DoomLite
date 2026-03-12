@@ -8,6 +8,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(SOURCES
   src/main.cpp
   src/platform/sdl2/platform_sdl2.cpp
+  src/renderer/framebuffer.cpp
 )
 
 add_executable(DoomLite ${SOURCES})
