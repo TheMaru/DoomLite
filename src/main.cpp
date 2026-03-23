@@ -1,5 +1,6 @@
 #include <cstdio>
 
+#include "map/map.h"
 #include "platform/platform.h"
 #include "renderer/framebuffer.h"
 #include "wad/wad.h"
@@ -15,6 +16,13 @@ int main(int argc, char* argv[]) {
     return 1;
   }
 
+  Map* map = Map_Load("E1M1");
+  printf("Vertices: %d\n", map->num_vertices);
+  printf("Linedefs: %d\n", map->num_linedefs);
+  printf("Sidedefs: %d\n", map->num_sidedefs);
+  printf("Sectors: %d\n", map->num_sectors);
+
+  Map_Unload(map);
   WAD_Shutdown();
 
   if (!Platform_Init(800, 600, "DoomLite")) {

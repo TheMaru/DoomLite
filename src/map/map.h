@@ -1,0 +1,51 @@
+#pragma once
+
+#include <cstdint>
+
+struct Vertex {
+  int16_t x;
+  int16_t y;
+};
+
+struct LineDef {
+  uint16_t v1;
+  uint16_t v2;
+  uint16_t flags;
+  uint16_t special;
+  uint16_t tag;
+  uint16_t sidedef_r;
+  uint16_t sidedef_l;
+};
+
+struct SideDef {
+  int16_t x_offset;
+  int16_t y_offset;
+  char upper_tex[8];
+  char lower_tex[8];
+  char mid_tex[8];
+  uint16_t sector;
+};
+
+struct Sector {
+  int16_t floor_height;
+  int16_t ceil_height;
+  char floor_tex[8];
+  char ceil_tex[8];
+  int16_t light;
+  uint16_t special;
+  uint16_t tag;
+};
+
+struct Map {
+  Vertex* vertices;
+  int num_vertices;
+  LineDef* linedefs;
+  int num_linedefs;
+  SideDef* sidedefs;
+  int num_sidedefs;
+  Sector* sectors;
+  int num_sectors;
+};
+
+Map* Map_Load(const char* name);
+void Map_Unload(Map* map);

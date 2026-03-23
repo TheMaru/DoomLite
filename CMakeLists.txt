@@ -10,6 +10,7 @@ set(SOURCES
   src/platform/sdl2/platform_sdl2.cpp
   src/renderer/framebuffer.cpp
   src/wad/wad.cpp
+  src/map/map.cpp
 )
 
 add_executable(DoomLite ${SOURCES})
