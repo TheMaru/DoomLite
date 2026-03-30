@@ -1,7 +1,9 @@
 #include <cstdio>
 
+#include "constants.h"
 #include "map/map.h"
 #include "platform/platform.h"
+#include "renderer/automap.h"
 #include "renderer/framebuffer.h"
 #include "wad/wad.h"
 
@@ -17,27 +19,21 @@ int main(int argc, char* argv[]) {
   }
 
   Map* map = Map_Load("E1M1");
-  printf("Vertices: %d\n", map->num_vertices);
-  printf("Linedefs: %d\n", map->num_linedefs);
-  printf("Sidedefs: %d\n", map->num_sidedefs);
-  printf("Sectors: %d\n", map->num_sectors);
 
-  Map_Unload(map);
-  WAD_Shutdown();
-
-  if (!Platform_Init(800, 600, "DoomLite")) {
+  if (!Platform_Init(SCREEN_WIDTH, SCREEN_HEIGHT, "DoomLite")) {
     return 1;
   }
 
-  Framebuffer_Init(800, 600);
-
-  Framebuffer_DrawLine(10, 20, 700, 20, 0xFF00FF00);
+  Framebuffer_Init(SCREEN_WIDTH, SCREEN_HEIGHT);
+  Automap_Render(map);
 
   while (!Platform_ShouldQuit()) {
     Platform_PollEvents();
     Platform_Present(Framebuffer_GetPixels());
   }
 
+  Map_Unload(map);
+  WAD_Shutdown();
   Framebuffer_Shutdown();
   Platform_Shutdown();
   return 0;
