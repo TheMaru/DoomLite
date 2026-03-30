@@ -8,6 +8,11 @@
 
 using std::min;
 
+constexpr uint32_t RED = 0xFFFF0000;
+constexpr uint32_t BROWN = 0xFFAA6622;
+// constexpr uint32_t YELLOW = 0xFFFFFF00;
+// constexpr uint32_t WHITE = 0xFFFFFFFF;
+
 void Automap_Render(const Map* map) {
   int max_x = map->vertices[0].x, min_x = map->vertices[0].x,
       max_y = map->vertices[0].y, min_y = map->vertices[0].y;
@@ -26,13 +31,16 @@ void Automap_Render(const Map* map) {
   float scale = min((float)(SCREEN_WIDTH - padding * 2) / map_width,
                     (float)(SCREEN_HEIGHT - padding * 2) / map_height);
   for (int i = 0; i < map->num_linedefs; i++) {
-    Vertex v1 = map->vertices[map->linedefs[i].v1];
-    Vertex v2 = map->vertices[map->linedefs[i].v2];
+    LineDef linedef = map->linedefs[i];
+    Vertex v1 = map->vertices[linedef.v1];
+    Vertex v2 = map->vertices[linedef.v2];
     int screen_x1 = (v1.x - min_x) * scale + padding;
     int screen_y1 = SCREEN_HEIGHT - (v1.y - min_y) * scale - padding;
     int screen_x2 = (v2.x - min_x) * scale + padding;
     int screen_y2 = SCREEN_HEIGHT - (v2.y - min_y) * scale - padding;
+    bool two_sided = (linedef.sidedef_l != 0xFFFF);
+
     Framebuffer_DrawLine(screen_x1, screen_y1, screen_x2, screen_y2,
-                         0xFF00FF00);
+                         two_sided ? BROWN : RED);
   }
 }
