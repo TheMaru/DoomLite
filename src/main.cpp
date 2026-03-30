@@ -31,6 +31,8 @@ int main(int argc, char* argv[]) {
 
   Framebuffer_Init(800, 600);
 
+  Framebuffer_DrawLine(10, 20, 700, 20, 0xFF00FF00);
+
   while (!Platform_ShouldQuit()) {
     Platform_PollEvents();
     Platform_Present(Framebuffer_GetPixels());
