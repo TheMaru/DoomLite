@@ -11,7 +11,11 @@ using std::min;
 constexpr uint32_t RED = 0xFFFF0000;
 constexpr uint32_t BROWN = 0xFFAA6622;
 // constexpr uint32_t YELLOW = 0xFFFFFF00;
-// constexpr uint32_t WHITE = 0xFFFFFFFF;
+constexpr uint32_t WHITE = 0xFFFFFFFF;
+
+enum ThingType {
+  THING_PLAYER1_START = 1,
+};
 
 void Automap_Render(const Map* map) {
   int max_x = map->vertices[0].x, min_x = map->vertices[0].x,
@@ -42,5 +46,21 @@ void Automap_Render(const Map* map) {
 
     Framebuffer_DrawLine(screen_x1, screen_y1, screen_x2, screen_y2,
                          two_sided ? BROWN : RED);
+  }
+
+  // draw player starting position
+  for (int i = 0; i < map->num_things; i++) {
+    Thing thing = map->things[i];
+    if (thing.type == THING_PLAYER1_START) {
+      int length = 5;
+      int screen_x = (thing.x - min_x) * scale + padding;
+      int screen_x1 = screen_x - length;
+      int screen_x2 = screen_x + length;
+      int screen_y = SCREEN_HEIGHT - (thing.y - min_y) * scale - padding;
+      int screen_y1 = screen_y + length;
+      int screen_y2 = screen_y - length;
+      Framebuffer_DrawLine(screen_x1, screen_y, screen_x2, screen_y, WHITE);
+      Framebuffer_DrawLine(screen_x, screen_y1, screen_x, screen_y2, WHITE);
+    }
   }
 }

@@ -33,6 +33,12 @@ Map* Map_Load(
   memcpy(map->sectors, sectors_lump.data, sectors_lump.size);
   delete[] sectors_lump.data;
 
+  Lump things_lump = WAD_GetLump("THINGS");
+  map->num_things = things_lump.size / sizeof(Thing);
+  map->things = new Thing[map->num_things];
+  memcpy(map->things, things_lump.data, things_lump.size);
+  delete[] things_lump.data;
+
   return map;
 }
 
@@ -41,5 +47,6 @@ void Map_Unload(Map* map) {
   delete[] map->linedefs;
   delete[] map->sidedefs;
   delete[] map->sectors;
+  delete[] map->things;
   delete map;
 }

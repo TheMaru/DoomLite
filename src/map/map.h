@@ -36,6 +36,14 @@ struct Sector {
   uint16_t tag;
 };
 
+struct Thing {
+  int16_t x;
+  int16_t y;
+  uint16_t angle;
+  uint16_t type;
+  uint16_t flags;
+};
+
 struct Map {
   Vertex* vertices;
   int num_vertices;
@@ -45,6 +53,8 @@ struct Map {
   int num_sidedefs;
   Sector* sectors;
   int num_sectors;
+  Thing* things;
+  int num_things;
 };
 
 Map* Map_Load(const char* name);
