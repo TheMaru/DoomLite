@@ -39,6 +39,24 @@ Map* Map_Load(
   memcpy(map->things, things_lump.data, things_lump.size);
   delete[] things_lump.data;
 
+  Lump nodes_lump = WAD_GetLump("NODES");
+  map->num_nodes = nodes_lump.size / sizeof(Node);
+  map->nodes = new Node[map->num_nodes];
+  memcpy(map->nodes, nodes_lump.data, nodes_lump.size);
+  delete[] nodes_lump.data;
+
+  Lump ssectors_lump = WAD_GetLump("SSECTORS");
+  map->num_ssectors = ssectors_lump.size / sizeof(SSector);
+  map->ssectors = new SSector[map->num_ssectors];
+  memcpy(map->ssectors, ssectors_lump.data, ssectors_lump.size);
+  delete[] ssectors_lump.data;
+
+  Lump segs_lump = WAD_GetLump("SEGS");
+  map->num_segs = segs_lump.size / sizeof(Seg);
+  map->segs = new Seg[map->num_segs];
+  memcpy(map->segs, segs_lump.data, segs_lump.size);
+  delete[] segs_lump.data;
+
   return map;
 }
 
@@ -48,5 +66,8 @@ void Map_Unload(Map* map) {
   delete[] map->sidedefs;
   delete[] map->sectors;
   delete[] map->things;
+  delete[] map->nodes;
+  delete[] map->ssectors;
+  delete[] map->segs;
   delete map;
 }

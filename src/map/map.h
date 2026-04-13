@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+constexpr uint16_t NODE_SUBSECTOR = 0x8000;
+
 struct Vertex {
   int16_t x;
   int16_t y;
@@ -44,6 +46,29 @@ struct Thing {
   uint16_t flags;
 };
 
+struct Node {
+  int16_t x;
+  int16_t y;
+  int16_t dx;
+  int16_t dy;
+  int16_t bbox[2][4];    // bounding boxes [front/back][top/bottom/left/right]
+  uint16_t children[2];  // child indices - front [0], back [1]
+};
+
+struct SSector {
+  uint16_t num_segs;
+  uint16_t first_seg;
+};
+
+struct Seg {
+  uint16_t v1;
+  uint16_t v2;
+  int16_t angle;
+  uint16_t linedef;
+  uint16_t side;
+  int16_t offset;
+};
+
 struct Map {
   Vertex* vertices;
   int num_vertices;
@@ -55,6 +80,12 @@ struct Map {
   int num_sectors;
   Thing* things;
   int num_things;
+  Node* nodes;
+  int num_nodes;
+  SSector* ssectors;
+  int num_ssectors;
+  Seg* segs;
+  int num_segs;
 };
 
 Map* Map_Load(const char* name);
