@@ -4,6 +4,10 @@
 
 constexpr uint16_t NODE_SUBSECTOR = 0x8000;
 
+enum ThingType {
+  THING_PLAYER1_START = 1,
+};
+
 struct Vertex {
   int16_t x;
   int16_t y;
@@ -90,3 +94,5 @@ struct Map {
 
 Map* Map_Load(const char* name);
 void Map_Unload(Map* map);
+
+Thing* Map_FindThing(const Map* map, ThingType type);

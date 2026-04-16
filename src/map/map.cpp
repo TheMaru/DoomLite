@@ -71,3 +71,12 @@ void Map_Unload(Map* map) {
   delete[] map->segs;
   delete map;
 }
+
+Thing* Map_FindThing(const Map* map, ThingType type) {
+  for (int i = 0; i < map->num_things; i++) {
+    if (map->things[i].type == type) {
+      return &map->things[i];
+    }
+  }
+  return nullptr;
+}
