@@ -8,9 +8,11 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(SOURCES
   src/main.cpp
   src/platform/sdl2/platform_sdl2.cpp
+  src/game/player.cpp
   src/renderer/framebuffer.cpp
   src/renderer/automap.cpp
   src/renderer/bsp.cpp
+  src/renderer/segs.cpp
   src/wad/wad.cpp
   src/map/map.cpp
 )

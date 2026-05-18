@@ -44,3 +44,7 @@ void Framebuffer_DrawLine(int x0, int y0, int x1, int y1, uint32_t color) {
     }
   }
 }
+
+void Framebuffer_Clear() {
+  memset(s_pixels, 0, s_width * s_height * sizeof(uint32_t));
+}

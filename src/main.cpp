@@ -2,6 +2,7 @@
 #include <cstdio>
 
 #include "constants.h"
+#include "game/player.h"
 #include "map/map.h"
 #include "platform/platform.h"
 #include "renderer/automap.h"
@@ -29,12 +30,13 @@ int main(int argc, char* argv[]) {
   Framebuffer_Init(SCREEN_WIDTH, SCREEN_HEIGHT);
   Automap_Render(map);
 
-  Thing* player = Map_FindThing(map, THING_PLAYER1_START);
-  assert(player != nullptr);
-  BSP_Render(map, map->num_nodes - 1, player->x, player->y);
+  Player player;
+  Player_Init(&player, map);
 
   while (!Platform_ShouldQuit()) {
     Platform_PollEvents();
+    Framebuffer_Clear();
+    BSP_Render(map, map->num_nodes - 1, &player);
     Platform_Present(Framebuffer_GetPixels());
   }
 
