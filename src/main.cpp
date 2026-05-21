@@ -8,6 +8,7 @@
 #include "renderer/automap.h"
 #include "renderer/bsp.h"
 #include "renderer/framebuffer.h"
+#include "renderer/segs.h"
 #include "wad/wad.h"
 
 int main(int argc, char* argv[]) {
@@ -36,6 +37,7 @@ int main(int argc, char* argv[]) {
   while (!Platform_ShouldQuit()) {
     Platform_PollEvents();
     Framebuffer_Clear();
+    ClearOcclusion();
     BSP_Render(map, map->num_nodes - 1, &player);
     Platform_Present(Framebuffer_GetPixels());
   }

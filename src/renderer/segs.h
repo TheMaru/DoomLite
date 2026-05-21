@@ -4,3 +4,5 @@
 #include "map/map.h"
 
 void RenderSeg(const Map* map, const Seg* seg, const Player* player);
+
+void ClearOcclusion();

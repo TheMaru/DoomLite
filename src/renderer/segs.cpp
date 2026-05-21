@@ -6,6 +6,8 @@
 #include "constants.h"
 #include "renderer/framebuffer.h"
 
+static bool s_occluded[SCREEN_WIDTH] = {false};
+
 void RenderSeg(const Map* map, const Seg* seg, const Player* player) {
   Vertex world_v1 = map->vertices[seg->v1];
   Vertex world_v2 = map->vertices[seg->v2];
@@ -45,6 +47,8 @@ void RenderSeg(const Map* map, const Seg* seg, const Player* player) {
   uint32_t color = 0xFF000000 | ((seg - map->segs) * 12345678);
 
   for (int x = x1; x <= x2; x++) {
+    if (s_occluded[x]) continue;
+
     float t = (float)(x - x1) / (float)(x2 - x1);
     float view_y = view_y1 + t * (view_y2 - view_y1);
 
@@ -58,5 +62,8 @@ void RenderSeg(const Map* map, const Seg* seg, const Player* player) {
     bottom = std::min(bottom, SCREEN_HEIGHT - 1);
 
     Framebuffer_DrawLine(x, top, x, bottom, color);
+    s_occluded[x] = true;
   }
 }
+
+void ClearOcclusion() { memset(s_occluded, 0, sizeof(s_occluded)); }
