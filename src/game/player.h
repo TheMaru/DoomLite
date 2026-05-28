@@ -8,6 +8,6 @@ struct Player {
   float angle;
 };
 
-void Player_Init(Player* player, const Map* map);
+void Player_Init(Player *player, const Map *map);
 
-void Player_Update(Player* player);
+void Player_Update(Player *player, float deltaTime);
