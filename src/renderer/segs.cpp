@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstdint>
 
 #include "constants.h"
 #include "renderer/framebuffer.h"
@@ -65,8 +66,6 @@ void RenderSeg(const Map *map, const Seg *seg, const Player *player) {
 
   constexpr float WALL_HEIGHT = 128.0f;
 
-  uint32_t color = 0xFF000000 | ((seg - map->segs) * 12345678);
-
   for (int x = x1; x <= x2; x++) {
     if (s_occluded[x])
       continue;
@@ -74,6 +73,10 @@ void RenderSeg(const Map *map, const Seg *seg, const Player *player) {
     float t = (float)(x - x1) / (float)(x2 - x1);
     float inv_y = inv_y1 + t * (inv_y2 - inv_y1);
     float view_y = 1.0f / inv_y;
+    float brightness = 1.0f / (1.0f + view_y * 0.002f);
+    brightness = std::min(brightness, 1.0f);
+    uint8_t shade = (uint8_t)(brightness * 255);
+    uint32_t color = 0xFF000000 | (shade << 16) | (shade << 8) | shade;
 
     if (view_y <= 0.0f)
       continue;
