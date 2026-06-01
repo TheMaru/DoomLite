@@ -85,7 +85,15 @@ void RenderSeg(const Map *map, const Seg *seg, const Player *player) {
     top = std::max(top, 0);
     bottom = std::min(bottom, SCREEN_HEIGHT - 1);
 
+    // ceiling
+    if (top > 0)
+      Framebuffer_DrawLine(x, 0, x, top, 0xFF222222);
+    // wall
     Framebuffer_DrawLine(x, top, x, bottom, color);
+    // floor
+    if (bottom < SCREEN_HEIGHT - 1)
+      Framebuffer_DrawLine(x, bottom, x, SCREEN_HEIGHT - 1, 0xFF444444);
+
     s_occluded[x] = true;
   }
 }
