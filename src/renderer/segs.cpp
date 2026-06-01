@@ -46,6 +46,9 @@ void RenderSeg(const Map *map, const Seg *seg, const Player *player) {
 
   constexpr float FOV_SCALE = SCREEN_WIDTH / 2.0f;
 
+  float inv_y1 = 1.0f / view_y1;
+  float inv_y2 = 1.0f / view_y2;
+
   float screen_x1 = (view_x1 / view_y1) * FOV_SCALE + SCREEN_WIDTH / 2.0f;
   float screen_x2 = (view_x2 / view_y2) * FOV_SCALE + SCREEN_WIDTH / 2.0f;
 
@@ -69,7 +72,8 @@ void RenderSeg(const Map *map, const Seg *seg, const Player *player) {
       continue;
 
     float t = (float)(x - x1) / (float)(x2 - x1);
-    float view_y = view_y1 + t * (view_y2 - view_y1);
+    float inv_y = inv_y1 + t * (inv_y2 - inv_y1);
+    float view_y = 1.0f / inv_y;
 
     if (view_y <= 0.0f)
       continue;
